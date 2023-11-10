@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Skymey_stock_tinkoff_bondlist.Actions.GetBonds;
 
 namespace Skymey_stock_tinkoff_bondlist
 {
@@ -29,14 +30,14 @@ namespace Skymey_stock_tinkoff_bondlist
     }
     public class MySpecialService : BackgroundService
     {
-        GetExchanges gtd = new GetExchanges();
+        GetBonds gb = new GetBonds();
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
                 try
                 {
-                    gtd.GetExchangesFromPolygon();
+                    gb.GetBondsFromTinkoff();
                     await Task.Delay(TimeSpan.FromHours(24));
                 }
                 catch (Exception ex)
