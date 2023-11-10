@@ -152,6 +152,12 @@ namespace Skymey_stock_tinkoff_bondlist.Actions.GetBonds
                     if (tbi.first1minCandleDate == null) tbi.first1minCandleDate = Timestamp.FromDateTime(DateTime.UtcNow);
                     tbi.riskLevel = item.RiskLevel.ToString();
                     if (tbi.riskLevel == null) tbi.riskLevel = "";
+                    TinkoffBondPlacementPrice tbpp = new TinkoffBondPlacementPrice();
+                    tbpp.currency = item.PlacementPrice.Currency;
+                    if (tbi.currency == null) tbi.currency = "";
+                    tbpp.units = item.PlacementPrice.Units;
+                    tbpp.currency = item.PlacementPrice.Currency;
+                    tbi.placementPrice = tbpp;
                     tbi.Update = DateTime.UtcNow;
                     _db.Bonds.Add(tbi);
                 }
