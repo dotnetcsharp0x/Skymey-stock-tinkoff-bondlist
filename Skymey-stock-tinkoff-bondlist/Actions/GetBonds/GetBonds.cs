@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using RestSharp;
+using Skymey_main_lib.Models.Bonds;
 using Skymey_main_lib.Models.Bonds.Tinkoff;
 using Skymey_main_lib.Models.Prices.Polygon;
 using Skymey_main_lib.Models.Tickers.Polygon;
@@ -39,6 +40,9 @@ namespace Skymey_stock_tinkoff_bondlist.Actions.GetBonds
         {
             var client = InvestApiClientFactory.Create(_apiKey);
             var response = client.Instruments.Bonds();
+            GetBondCouponsRequest getBondCouponsRequest = new GetBondCouponsRequest();
+            getBondCouponsRequest.Figi = "BBG00RRT3V69";
+            var r = client.Instruments.GetBondCoupons(getBondCouponsRequest);
             var ticker_finds = (from i in _db.Bonds select i);
             foreach (var item in response.Instruments)
             {
@@ -160,6 +164,19 @@ namespace Skymey_stock_tinkoff_bondlist.Actions.GetBonds
                     tbi.placementPrice = tbpp;
                     tbi.Update = DateTime.UtcNow;
                     _db.Bonds.Add(tbi);
+
+                    stock_bonds bond = new stock_bonds();
+                    bond._id = ObjectId.GenerateNewId();
+                    bond.Title = item.Name;
+                    bond.Figi = item.Figi;
+                    bond.Isin = item.Isin;
+                    bond.Ticker = item.Ticker;
+                    bond.Currency = item.Currency;
+                    bond.Country = item.Currency;
+                    bond.Sector = item.Sector;
+                    bond.Exchange = item.RealExchange.ToString();
+                    bond.Update = DateTime.UtcNow;
+                    _db.stock_bonds.Add(bond);
                 }
             }
             _db.SaveChanges();

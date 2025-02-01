@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <Reference Include="Skymey-main-lib">
-      <HintPath>..\..\Skymey-main-lib\Skymey-main-lib\bin\Release\net8.0\publish\Skymey-main-lib.dll</HintPath>
+      <HintPath>..\..\Skymey-main-lib\Skymey-main-lib\bin\Debug\net8.0\Skymey-main-lib.dll</HintPath>
     </Reference>
   </ItemGroup>
 
